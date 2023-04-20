@@ -1,8 +1,39 @@
-name: hello-world
-on: push
-jobs:
-  my-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: my-step
-        run: echo "Hello World!"
+name: lint
+
+'on':
+pull_request:
+
+    jobs:
+    eslint:
+    name: Run Linters
+strategy:
+    fail - fast: true
+matrix:
+    os: [ubuntu - latest]
+runs - on: $ {
+    {
+        matrix.os
+    }
+}
+steps:
+    -name: Checkout Git respository
+uses: actions / checkout @v2 -
+    name: Set up Node.js
+uses: actions / setup - node @v1
+with: node - version: '16' -
+    name: Install dependencies
+run: |
+    if [-e yarn.lock];
+then
+yarn install--frozen - lockfile--force
+elif[-e package - lock.json];
+then
+npm ci
+else
+    npm i
+fi
+    -
+    name: Run linters
+uses: werarerequired / lint - action @v2
+with:
+    eslint: true
